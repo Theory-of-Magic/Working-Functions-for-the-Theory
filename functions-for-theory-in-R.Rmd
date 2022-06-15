@@ -1,0 +1,58 @@
+---
+title: "Untitled"
+author: "EBrandDV"
+date: "15/6/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(mosaic)
+library(ggplot2)
+```
+
+# Gygax's Law
+## Gygax's Law in one dimension
+$$F_G(x)=Ae^{-\frac{(x-x_0)^2}{2\sigma^2}}$$
+```{r}
+x= seq(from= 0, to= 10, by= 0.001)
+
+F.G <- function(A, x, x.0, s){
+  A * exp(-(x-x.0)^2 / (2*s^2))
+}
+
+F.G.test <- F.G(A= 1, x= x, x.0= 5, s= 1)
+qplot(x= x, F.G.test, geom= 'line', xlab= 'x', ylab= 'F.G(x)')
+```
+
+## Gygax's Law in three dimensions
+$$F_{3G}(x)=Ae^{-\frac{(x-x_0)^2+(y-y_0)^2+(z-z_0)^2}{2\sigma^2}}$$
+```{r}
+y= seq(from= 0, to= 10, by= 0.001)
+z= seq(from= 0, to= 10, by= 0.001)
+
+F.3G <- function(A, x, x.0, y, y.0, z, z.0, s){
+  A * exp(-((x-x.0)^2 + (y-y.0)^2+ (z-z.0)^2) / (2*s^2))
+}
+
+F.3G.test <- F.3G(A= 2, x= 1, x.0= 2, y= 3, y.0= 4, z= 5, z.0= 6, s= 1)
+F.3G.test
+```
+
+# Vance'sTheory and Approximation
+## Vance's Law for Gygax energy
+### In one dimension
+$$E_G=2A\int_{0}^\beta e^{-x^2}dx$$
+```{r}
+E.G <- function(A, beta, x){
+  func <- function(x){exp(-x^2)}
+  integrate(func, lower= 0, upper= beta)
+}
+
+E.G.test <- E.G(A= 1, beta= 10, x= x)
+E.G.test
+```
+
+### In three dimensions
+$$E_{3G}=2^3A\int_{0}^\beta \int_{0}^\beta \int_{0}^\beta e^{-(x^2+y^2+z^2)}dx \space dy \space dz$$
+
